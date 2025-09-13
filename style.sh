@@ -21,15 +21,25 @@ error() {
 }
 
 name="stranger"
+count=1
 
-while getopts ":hn:" opt; do
+while getopts ":hn:c:" opt; do
   case "$opt" in 
     h) usage; exit 0 ;;
+    c) count="$OPTARG" ;;
     n) name="$OPTARG" ;;
     \?) error "Unknown option: -$OPTARG" ;;
     :) error "Missing argument for -$OPTARG" ;;
   esac
 done
 
-echo "Hello, $name!"
+if ! [[ "$count" =~ ^[1-9][0-9]*$ ]]; then
+  error "Count must be a positive number"
+fi
+
+for  ((i=0; i<=count; i++)); do
+  echo "Hello, $name!"
+done
+
+
 
