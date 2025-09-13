@@ -35,11 +35,14 @@ while getopts ":hn:c:u" opt; do
   esac
 done
 
+shift $((OPTIND-1))
+custom="${1:-}"
+
 if ! [[ "$count" =~ ^[1-9][0-9]*$ ]]; then
   error "Count must be a positive number"
 fi
 
-msg="Hello, $name!"
+msg="${custom:-Hello, $name!}"
 
 for  ((i=0; i<=count; i++)); do
   if [ "$upper" = true ]; then
