@@ -22,11 +22,13 @@ error() {
 
 name="stranger"
 count=1
+upper=false
 
-while getopts ":hn:c:" opt; do
+while getopts ":hn:c:u" opt; do
   case "$opt" in 
     h) usage; exit 0 ;;
     c) count="$OPTARG" ;;
+    u) upper=true ;;
     n) name="$OPTARG" ;;
     \?) error "Unknown option: -$OPTARG" ;;
     :) error "Missing argument for -$OPTARG" ;;
@@ -37,8 +39,14 @@ if ! [[ "$count" =~ ^[1-9][0-9]*$ ]]; then
   error "Count must be a positive number"
 fi
 
+msg="Hello, $name!"
+
 for  ((i=0; i<=count; i++)); do
-  echo "Hello, $name!"
+  if [ "$upper" = true ]; then
+    echo $msg | tr '[:lower:]' '[:upper:]'
+  else
+    echo "$msg"
+  fi
 done
 
 
