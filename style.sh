@@ -14,11 +14,22 @@ Examples:
 TXT
 }
 
+error() {
+  echo "Error: $1"
+  usage
+  exit 2
+}
+
 name="stranger"
 
-if [[ "${1:-}" == "-h" ]]; then
-  usage
-  exit 0
-fi
+while getopts ":hn:" opt; do
+  case "$opt" in 
+    h) usage; exit 0 ;;
+    n) name="$OPTARG" ;;
+    \?) error "Unknown option: -$OPTARG" ;;
+    :) error "Missing argument for -$OPTARG" ;;
+  esac
+done
 
 echo "Hello, $name!"
+
